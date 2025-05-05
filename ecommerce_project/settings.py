@@ -17,7 +17,7 @@ SECRET_KEY = os.getenv('$gk$c$_bxz#^&lqv5$y_avp-_&s%i31*d-7asr^!3u(zwyu83z', 'fa
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'recommender-v88f.onrender.com',
+    'ai-recommender-u3q5.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
