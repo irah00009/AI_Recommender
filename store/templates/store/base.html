@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TagSmart{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #ecf0f1;
+            --accent: #3498db;
+            --text: #2c3e50;
+            --error: #e74c3c;
+            --success: #2ecc71;
+            --background: #f9f9f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: var(--background);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.95rem;
+            text-decoration: none;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e1e1e1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-body {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Tags */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag-item {
+            background-color: var(--secondary);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: var(--success);
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: var(--error);
+        }
+
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {% if message.tags == 'success' %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                        <i class="fas fa-exclamation-circle"></i>
+                    {% endif %}
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="nav-links">
+            <a href="{% url 'product_list' %}" class="btn btn-outline">
+                <i class="fas fa-box"></i> Products
+            </a>
+            <a href="{% url 'add_product' %}" class="btn btn-outline">
+                <i class="fas fa-plus"></i> Add Product
+            </a>
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
